@@ -87,17 +87,25 @@ export const actions = {
       commit("sSearchBooks", books);
     }
   },
-  // async getImg({}, img) {
-  //   const res = await fetch(img)
-  //     .then((response) => {
-  //       console.log("レスポンス", response);
-  //       return response.blob();
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //       return null;
-  //     });
-  //   console.log("★", res);
-  //   return res;
-  // },
+  exportCsv({ commit, getters }) {
+    const items = getters.gAllBooks;
+    const header = Object.keys(items[0]);
+    const headerString = header.join(",");
+    const replacer = (key, value) => value ?? "";
+    const rowItems = items.map((row) =>
+      header
+        .map((fieldName) => JSON.stringify(row[fieldName], replacer))
+        .join(",")
+    );
+    const csv = [headerString, ...rowItems].join("\r\n");
+    const bom = new Uint8Array([0xef, 0xbb, 0xbf]);
+    const blob = new Blob([bom, csv], {
+      type: "text/csv",
+    });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "books.csv";
+    link.click();
+    link.remove();
+  },
 };
