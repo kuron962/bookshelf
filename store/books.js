@@ -76,8 +76,8 @@ export const actions = {
       const books = list.map((x) => {
         return {
           title: x.volumeInfo.title,
-          isbn: x.volumeInfo.industryIdentifiers
-            ? x.volumeInfo.industryIdentifiers
+          isbn: x.volumeInfo.industryIdentifiers[1]
+            ? x.volumeInfo.industryIdentifiers[1].identifier
             : null,
           image: x.volumeInfo.imageLinks
             ? x.volumeInfo.imageLinks.smallThumbnail
@@ -104,8 +104,31 @@ export const actions = {
     });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = "books.csv";
+    link.download = "bookshelf_books.csv";
     link.click();
     link.remove();
+  },
+  async importCsvFromOurs({ commit, getters }, data) {
+    let fileResult = data.split("\r\n");
+    let items = [];
+    let header = fileResult[0].split(",");
+    fileResult.shift();
+    items = fileResult.map((item) => {
+      const x = item.replace(/\"/g, "");
+      let datas = x.split(",");
+      let result = {};
+      for (const index in datas) {
+        let key = header[index];
+        result[key] = datas[index];
+      }
+      return result;
+    });
+    commit("sAllBooks", items);
+    const st = JSON.stringify(getters.gAllBooks);
+    localStorage.setItem("books", st);
+  },
+
+  async importCsvFromBsy({ commit }, data) {
+    // 蔵書マネージャーでエクスポートしたデータをインポートし、localstorageとstoreに保存
   },
 };
