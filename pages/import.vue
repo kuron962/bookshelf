@@ -1,11 +1,14 @@
 <template>
-  <v-container>
-    <input @change="selectFile" type="file" name="file" />
-    <v-btn @click="importCsvFromOurs" class="ma-4"
-      >このアプリでエクスポートしたデータをインポート</v-btn
+  <v-container class="ma-3">
+    <input @change="selectFile" type="file" name="file" accept="text/csv" />
+    <br />
+    <br />
+    <span>選択したファイルの取得元を選んでください</span>
+    <v-btn :disabled="!this.isActive" @click="importCsvFromOurs" class="ma-4"
+      >このアプリ</v-btn
     >
-    <v-btn @click="importCsvFromBsy" class="ma-4"
-      >蔵書マネージャーでエクスポートしたデータをインポート</v-btn
+    <v-btn :disabled="!this.isActive" @click="importCsvFromBsy" class="ma-4"
+      >蔵書マネージャー</v-btn
     >
   </v-container>
 </template>
@@ -15,6 +18,7 @@ export default {
   data() {
     return {
       file: null,
+      isActive: false,
     };
   },
 
@@ -38,8 +42,20 @@ export default {
       reader.readAsText(result);
       reader.onload = () => {
         this.file = reader.result;
+        this.isActive = this.handleIsActive();
+        console.log("★active", this.isActive);
       };
+    },
+    handleIsActive() {
+      if (this.file !== null) {
+        return true;
+      } else {
+        return false;
+      }
     },
   },
 };
 </script>
+
+<style scoped>
+</style>

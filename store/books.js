@@ -128,7 +128,32 @@ export const actions = {
     localStorage.setItem("books", st);
   },
 
-  async importCsvFromBsy({ commit }, data) {
-    // 蔵書マネージャーでエクスポートしたデータをインポートし、localstorageとstoreに保存
+  async importCsvFromBsy({ commit, getters }, data) {
+    let fileResult = data.trim().split("\n");
+    const header = fileResult[0].trim().split("\t");
+    let items = [];
+    fileResult.shift();
+    items = fileResult.map((item) => {
+      let datas = item.split("\t");
+      let result = {};
+      for (const index in datas) {
+        let key = header[index];
+        result[key] = datas[index];
+      }
+      return result;
+    });
+    const formatItems = items.map((item) => {
+      const x = {
+        id: String(Number(item._id) + 9000000000000),
+        title: item.title,
+        isbn: item.isbn,
+        image: null,
+        type: null,
+      };
+      return x;
+    });
+    commit("sAllBooks", formatItems);
+    const st = JSON.stringify(getters.gAllBooks);
+    localStorage.setItem("books", st);
   },
 };
