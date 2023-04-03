@@ -38,13 +38,17 @@ export default {
     },
     selectFile(event) {
       const result = event.target.files[0];
-      const reader = new FileReader();
-      reader.readAsText(result);
-      reader.onload = () => {
-        this.file = reader.result;
+      if (result) {
+        const reader = new FileReader();
+        reader.readAsText(result);
+        reader.onload = () => {
+          this.file = reader.result;
+          this.isActive = this.handleIsActive();
+        };
+      } else {
+        this.file = null;
         this.isActive = this.handleIsActive();
-        console.log("★active", this.isActive);
-      };
+      }
     },
     handleIsActive() {
       if (this.file !== null) {
@@ -56,6 +60,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-</style>
