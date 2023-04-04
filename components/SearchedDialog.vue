@@ -8,6 +8,7 @@
           class="pa-3"
           @click="add(book)"
         >
+          <img class="card-img" :src="book.image" />
           <v-list-item-title>{{ book.title }}</v-list-item-title>
           <v-dialog v-model="addDialog" max-width="90%" :retain-focus="false">
             <AddDialog :book="book.title" @added="closeDialog" />

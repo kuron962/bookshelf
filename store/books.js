@@ -80,7 +80,7 @@ export const actions = {
             ? x.volumeInfo.industryIdentifiers[1].identifier
             : null,
           image: x.volumeInfo.imageLinks
-            ? x.volumeInfo.imageLinks.smallThumbnail
+            ? x.volumeInfo.imageLinks.thumbnail
             : "",
         };
       });

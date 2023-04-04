@@ -1,12 +1,27 @@
 <template>
-  <v-card class="ma-3 pa-3" max-width="540px">
-    <v-chip v-if="gThisBook.type === '紙'" outlined color="orange" label>{{
-      gThisBook.type
-    }}</v-chip>
-    <v-chip v-if="gThisBook.type === '電子'" outlined color="blue" label>{{
-      gThisBook.type
-    }}</v-chip>
-    <v-card-title> {{ gThisBook.title }} </v-card-title>
+  <v-card class="pa-3" max-width="100%">
+    <div class="parent_box">
+      <img class="card-img" :src="gThisBook.image" />
+      <div>
+        <v-chip
+          v-if="gThisBook.type === '紙'"
+          outlined
+          color="orange"
+          class="ma-3 pa-3 center"
+          label
+          >{{ gThisBook.type }}</v-chip
+        >
+        <v-chip
+          v-if="gThisBook.type === '電子'"
+          outlined
+          color="blue"
+          class="ma-3 pa-3 center"
+          label
+          >{{ gThisBook.type }}</v-chip
+        >
+        <v-card-title> {{ gThisBook.title }} </v-card-title>
+      </div>
+    </div>
     <v-card-actions class="justify-end">
       <v-btn class="ma-3 center" @click="del"> 削除 </v-btn>
     </v-card-actions>
@@ -32,3 +47,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.parent_box {
+  display: flex;
+}
+</style>

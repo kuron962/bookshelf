@@ -9,7 +9,10 @@
         md="4"
         lg="3"
       >
-        <v-card height="200px" class="pa-3" @click="openDialog(book)">
+        <v-card height="360px" class="pa-3" @click="openDialog(book)">
+          <div>
+            <img height="180px" class="card-img" :src="book.image" />
+          </div>
           <v-chip v-if="book.type === '紙'" outlined color="orange" label>{{
             book.type
           }}</v-chip>
