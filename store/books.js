@@ -89,9 +89,16 @@ export const actions = {
   },
   exportCsv({ commit, getters }) {
     const items = getters.gAllBooks;
+    console.log("items", items);
     const header = Object.keys(items[0]);
+    console.log("header", header);
+
     const headerString = header.join(",");
+    console.log("headerString", headerString);
+
     const replacer = (key, value) => value ?? "";
+    console.log("replacer", replacer);
+
     const rowItems = items.map((row) =>
       header
         .map((fieldName) => JSON.stringify(row[fieldName], replacer))
