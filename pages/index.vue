@@ -9,7 +9,16 @@
         md="4"
         lg="3"
       >
-        <BookCard :book="book" @clickCard="openDialog(book)" />
+        <BookByPaperCard
+          v-if="book.type == '紙'"
+          :book="book"
+          @clickCard="openDialog(book)"
+        />
+        <BookByEleCard
+          v-if="book.type == '電子'"
+          :book="book"
+          @clickCard="openDialog(book)"
+        />
         <v-dialog v-model="deleteDialog" max-width="90%" :retain-focus="false">
           <DeleteDialog @deleted="closeDialog" />
         </v-dialog>
@@ -21,10 +30,11 @@
 <script>
 import { mapGetters } from "vuex";
 import DeleteDialog from "~/components/DeleteDialog.vue";
-import BookCard from "../components/BookCard.vue";
+import BookByPaperCard from "../components/BookByPaperCard.vue";
+import BookByEleCard from "../components/BookByEleCard.vue";
 
 export default {
-  components: { DeleteDialog, BookCard },
+  components: { DeleteDialog, BookByPaperCard, BookByEleCard },
   data() {
     return {
       deleteDialog: false,
@@ -46,7 +56,6 @@ export default {
       await this.$store.dispatch("books/load");
     },
     async openDialog(book) {
-      console.log("★★");
       this.deleteDialog = true;
       await this.$store.dispatch("books/setBook", book);
     },

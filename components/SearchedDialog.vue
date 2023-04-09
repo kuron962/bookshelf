@@ -36,10 +36,6 @@ export default {
   },
 
   methods: {
-    // async getImg(img) {
-    //   const res = await this.$store.dispatch("books/getImg", img);
-    //   console.log("★★", res);
-    // },
     async add(book) {
       this.addDialog = true;
       await this.$store.dispatch("books/setBook", book);
