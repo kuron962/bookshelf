@@ -19,7 +19,6 @@ export default {
   methods: {
     async clickCard() {
       this.$emit("clickCard", this.book);
-      console.log("", this.book);
     },
   },
 };

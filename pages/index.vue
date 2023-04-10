@@ -19,8 +19,8 @@
           :book="book"
           @clickCard="openDialog(book)"
         />
-        <v-dialog v-model="deleteDialog" max-width="90%" :retain-focus="false">
-          <DeleteDialog @deleted="closeDialog" />
+        <v-dialog v-model="bookDialog" max-width="90%" :retain-focus="false">
+          <BookDialog @deleted="closeDialog" @edited="closeDialog" />
         </v-dialog>
       </v-col>
     </v-row>
@@ -29,15 +29,15 @@
 
 <script>
 import { mapGetters } from "vuex";
-import DeleteDialog from "~/components/DeleteDialog.vue";
+import BookDialog from "~/components/BookDialog.vue";
 import BookByPaperCard from "../components/BookByPaperCard.vue";
 import BookByEleCard from "../components/BookByEleCard.vue";
 
 export default {
-  components: { DeleteDialog, BookByPaperCard, BookByEleCard },
+  components: { BookDialog, BookByPaperCard, BookByEleCard },
   data() {
     return {
-      deleteDialog: false,
+      bookDialog: false,
     };
   },
 
@@ -56,11 +56,11 @@ export default {
       await this.$store.dispatch("books/load");
     },
     async openDialog(book) {
-      this.deleteDialog = true;
+      this.bookDialog = true;
       await this.$store.dispatch("books/setBook", book);
     },
     closeDialog() {
-      this.deleteDialog = false;
+      this.bookDialog = false;
     },
   },
 };

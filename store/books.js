@@ -29,6 +29,12 @@ export const mutations = {
     });
     state.books = result;
   },
+  sEditBook(state, payload) {
+    var result = state.books.map((book) =>
+      book.id === payload.id ? { ...book, ...payload } : book
+    );
+    state.books = result;
+  },
   sSearchBooks(state, payload) {
     state.searchBooks = payload;
   },
@@ -53,6 +59,12 @@ export const actions = {
 
   async deleteBook({ commit, getters }, id) {
     commit("sDelBook", id);
+    const st = JSON.stringify(getters.gAllBooks);
+    localStorage.setItem("books", st);
+  },
+
+  async editBook({ commit, getters }, book) {
+    commit("sEditBook", book);
     const st = JSON.stringify(getters.gAllBooks);
     localStorage.setItem("books", st);
   },
