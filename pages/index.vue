@@ -19,6 +19,11 @@
           :book="book"
           @clickCard="openDialog(book)"
         />
+        <BookByNullCard
+          v-if="!book.type"
+          :book="book"
+          @clickCard="openDialog(book)"
+        />
         <v-dialog v-model="bookDialog" max-width="90%" :retain-focus="false">
           <BookDialog @deleted="closeDialog" @edited="closeDialog" />
         </v-dialog>
@@ -32,9 +37,10 @@ import { mapGetters } from "vuex";
 import BookDialog from "~/components/BookDialog.vue";
 import BookByPaperCard from "../components/BookByPaperCard.vue";
 import BookByEleCard from "../components/BookByEleCard.vue";
+import BookByNullCard from "../components/BookByNullCard.vue";
 
 export default {
-  components: { BookDialog, BookByPaperCard, BookByEleCard },
+  components: { BookDialog, BookByPaperCard, BookByEleCard, BookByNullCard },
   data() {
     return {
       bookDialog: false,
